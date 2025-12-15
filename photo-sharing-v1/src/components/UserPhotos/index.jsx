@@ -94,8 +94,7 @@ function UserPhotos({ advancedFeatures, setContextText }) {
         setError('Cannot load photos');
         setLoading(false);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId, setContextText]);
+  }, [userId, setContextText, location.hash]);
 
   const updateUrlHash = (index) => {
     navigate(`/photos/${userId}#photo=${index}`, { replace: true });
