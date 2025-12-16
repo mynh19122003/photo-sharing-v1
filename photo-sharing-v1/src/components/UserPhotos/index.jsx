@@ -54,17 +54,17 @@ function UserPhotos({ advancedFeatures, setContextText, user: currentUser }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const getPhotoIndexFromHash = () => {
-    const hash = location.hash;
-    if (hash && hash.includes('photo=')) {
-      const index = parseInt(hash.split('photo=')[1], 10);
-      return isNaN(index) ? 0 : index;
-    }
-    return 0;
-  };
-
   useEffect(() => {
     if (!userId) return;
+
+    const getPhotoIndexFromHash = () => {
+      const hash = location.hash;
+      if (hash && hash.includes('photo=')) {
+        const index = parseInt(hash.split('photo=')[1], 10);
+        return isNaN(index) ? 0 : index;
+      }
+      return 0;
+    };
 
     setLoading(true);
     setError(null);

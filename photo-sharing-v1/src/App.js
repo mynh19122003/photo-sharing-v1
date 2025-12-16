@@ -133,19 +133,6 @@ const theme = createTheme({
   },
 });
 
-/**
- * Protected Route Wrapper
- */
-function ProtectedRoute({ user, children }) {
-  const location = useLocation();
-
-  if (!user) {
-    return <Navigate to="/login-register" state={{ from: location }} replace />;
-  }
-
-  return children;
-}
-
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
