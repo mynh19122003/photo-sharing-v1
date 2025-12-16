@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -23,6 +24,7 @@ import {
 import {
   AddAPhoto as AddAPhotoIcon,
   Logout as LogoutIcon,
+  Login as LoginIcon,
 } from '@mui/icons-material';
 
 const API_BASE = 'http://localhost:3001';
@@ -159,6 +161,26 @@ function TopBar({ advancedFeatures, setAdvancedFeatures, contextText, user, onLo
                   <LogoutIcon />
                 </IconButton>
               </>
+            )}
+
+            {/* If Not Logged In - Show Please Login Button */}
+            {!user && (
+              <Button
+                component={Link}
+                to="/login-register"
+                variant="outlined"
+                startIcon={<LoginIcon />}
+                sx={{
+                  color: '#E0E0E0',
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  '&:hover': {
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                }}
+              >
+                Please Login
+              </Button>
             )}
           </Box>
         </Toolbar>

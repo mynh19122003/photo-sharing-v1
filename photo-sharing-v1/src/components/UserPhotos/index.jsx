@@ -41,9 +41,9 @@ const formatDate = (dateString) => {
   });
 };
 
-function UserPhotos({ advancedFeatures, setContextText }) {
+function UserPhotos({ advancedFeatures, setContextText, user: currentUser }) {
   const [photos, setPhotos] = useState([]);
-  const [user, setUser] = useState(null);
+  const [photoOwner, setPhotoOwner] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
@@ -75,7 +75,7 @@ function UserPhotos({ advancedFeatures, setContextText }) {
     ])
       .then(([photosData, userData]) => {
         setPhotos(photosData || []);
-        setUser(userData);
+        setPhotoOwner(userData);
         setLoading(false);
 
         const indexFromHash = getPhotoIndexFromHash();
@@ -186,7 +186,7 @@ function UserPhotos({ advancedFeatures, setContextText }) {
       <CardMedia
         component="img"
         image={`${IMAGE_BASE_URL}/${photo.file_name}`}
-        alt={`Photo by ${user?.first_name}`}
+        alt={`Photo by ${photoOwner?.first_name}`}
         sx={{
           width: '100%',
           maxHeight: isStepperMode ? 600 : 500,
@@ -250,43 +250,47 @@ function UserPhotos({ advancedFeatures, setContextText }) {
           </Box>
         )}
 
-        {/* Add Comment Input */}
-        <Divider sx={{ marginY: 2 }} />
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-end' }}>
-          <TextField
-            fullWidth
-            placeholder="Write a comment..."
-            value={commentTexts[photo._id] || ''}
-            onChange={(e) => setCommentTexts((prev) => ({ ...prev, [photo._id]: e.target.value }))}
-            size="small"
-            multiline
-            maxRows={3}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: 'rgba(60, 60, 60, 0.5)',
-                color: '#E0E0E0',
-              },
-            }}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleAddComment(photo._id);
-              }
-            }}
-          />
-          <IconButton
-            onClick={() => handleAddComment(photo._id)}
-            disabled={submittingComment[photo._id] || !commentTexts[photo._id]?.trim()}
-            sx={{
-              backgroundColor: 'rgba(33, 150, 243, 0.3)',
-              color: '#2196F3',
-              '&:hover': { backgroundColor: 'rgba(33, 150, 243, 0.5)' },
-              '&:disabled': { color: '#808080' },
-            }}
-          >
-            {submittingComment[photo._id] ? <CircularProgress size={20} /> : <SendIcon />}
-          </IconButton>
-        </Box>
+        {/* Add Comment Input - Chỉ hiển khi đã đăng nhập */}
+        {currentUser && (
+          <>
+            <Divider sx={{ marginY: 2 }} />
+            <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-end' }}>
+              <TextField
+                fullWidth
+                placeholder="Write a comment..."
+                value={commentTexts[photo._id] || ''}
+                onChange={(e) => setCommentTexts((prev) => ({ ...prev, [photo._id]: e.target.value }))}
+                size="small"
+                multiline
+                maxRows={3}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(60, 60, 60, 0.5)',
+                    color: '#E0E0E0',
+                  },
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleAddComment(photo._id);
+                  }
+                }}
+              />
+              <IconButton
+                onClick={() => handleAddComment(photo._id)}
+                disabled={submittingComment[photo._id] || !commentTexts[photo._id]?.trim()}
+                sx={{
+                  backgroundColor: 'rgba(33, 150, 243, 0.3)',
+                  color: '#2196F3',
+                  '&:hover': { backgroundColor: 'rgba(33, 150, 243, 0.5)' },
+                  '&:disabled': { color: '#808080' },
+                }}
+              >
+                {submittingComment[photo._id] ? <CircularProgress size={20} /> : <SendIcon />}
+              </IconButton>
+            </Box>
+          </>
+        )}
       </CardContent>
     </Card>
   );
@@ -301,7 +305,7 @@ function UserPhotos({ advancedFeatures, setContextText }) {
           variant="h5"
           sx={{ fontWeight: 700, marginBottom: 2, textAlign: 'center', color: '#FFFFFF', letterSpacing: '0.5px' }}
         >
-          Photos of {user?.first_name} {user?.last_name}
+          Photos of {photoOwner?.first_name} {photoOwner?.last_name}
         </Typography>
 
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, marginBottom: 3 }}>
@@ -337,7 +341,7 @@ function UserPhotos({ advancedFeatures, setContextText }) {
   return (
     <Box sx={{ padding: 2 }}>
       <Typography variant="h5" sx={{ fontWeight: 700, marginBottom: 3, color: '#FFFFFF', letterSpacing: '0.5px' }}>
-        Photos of {user?.first_name} {user?.last_name}
+        Photos of {photoOwner?.first_name} {photoOwner?.last_name}
       </Typography>
       {photos.map((photo, index) => renderPhotoCard(photo, index, false))}
     </Box>
@@ -347,11 +351,13 @@ function UserPhotos({ advancedFeatures, setContextText }) {
 UserPhotos.propTypes = {
   advancedFeatures: PropTypes.bool,
   setContextText: PropTypes.func,
+  user: PropTypes.object,  // currentUser - người đang đăng nhập
 };
 
 UserPhotos.defaultProps = {
   advancedFeatures: false,
   setContextText: null,
+  user: null,
 };
 
 export default UserPhotos;

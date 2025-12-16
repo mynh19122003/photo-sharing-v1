@@ -224,93 +224,85 @@ function App() {
                   }
                 />
 
-                {/* Protected Routes */}
+                {/* Public Routes - Cho phép guest xem */}
                 <Route
                   path="/users/:userId"
                   element={
-                    <ProtectedRoute user={user}>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={4} md={3}>
-                          <Paper elevation={0} sx={{ overflow: 'hidden', position: 'sticky', top: 80 }}>
-                            <UserList />
-                          </Paper>
-                        </Grid>
-                        <Grid item xs={12} sm={8} md={9}>
-                          <Paper elevation={0} sx={{ minHeight: 400, overflow: 'hidden' }}>
-                            <UserDetail setContextText={handleSetContextText} />
-                          </Paper>
-                        </Grid>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={4} md={3}>
+                        <Paper elevation={0} sx={{ overflow: 'hidden', position: 'sticky', top: 80 }}>
+                          <UserList />
+                        </Paper>
                       </Grid>
-                    </ProtectedRoute>
+                      <Grid item xs={12} sm={8} md={9}>
+                        <Paper elevation={0} sx={{ minHeight: 400, overflow: 'hidden' }}>
+                          <UserDetail setContextText={handleSetContextText} />
+                        </Paper>
+                      </Grid>
+                    </Grid>
                   }
                 />
 
                 <Route
                   path="/photos/:userId"
                   element={
-                    <ProtectedRoute user={user}>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={4} md={3}>
-                          <Paper elevation={0} sx={{ overflow: 'hidden', position: 'sticky', top: 80 }}>
-                            <UserList />
-                          </Paper>
-                        </Grid>
-                        <Grid item xs={12} sm={8} md={9}>
-                          <Paper elevation={0} sx={{ minHeight: 400, overflow: 'hidden' }}>
-                            <UserPhotos advancedFeatures={advancedFeatures} setContextText={handleSetContextText} />
-                          </Paper>
-                        </Grid>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={4} md={3}>
+                        <Paper elevation={0} sx={{ overflow: 'hidden', position: 'sticky', top: 80 }}>
+                          <UserList />
+                        </Paper>
                       </Grid>
-                    </ProtectedRoute>
+                      <Grid item xs={12} sm={8} md={9}>
+                        <Paper elevation={0} sx={{ minHeight: 400, overflow: 'hidden' }}>
+                          <UserPhotos advancedFeatures={advancedFeatures} setContextText={handleSetContextText} user={user} />
+                        </Paper>
+                      </Grid>
+                    </Grid>
                   }
                 />
 
                 <Route
                   path="/comments/:userId"
                   element={
-                    <ProtectedRoute user={user}>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={4} md={3}>
-                          <Paper elevation={0} sx={{ overflow: 'hidden', position: 'sticky', top: 80 }}>
-                            <UserList />
-                          </Paper>
-                        </Grid>
-                        <Grid item xs={12} sm={8} md={9}>
-                          <Paper elevation={0} sx={{ minHeight: 400, overflow: 'hidden' }}>
-                            <UserComments setContextText={handleSetContextText} />
-                          </Paper>
-                        </Grid>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={4} md={3}>
+                        <Paper elevation={0} sx={{ overflow: 'hidden', position: 'sticky', top: 80 }}>
+                          <UserList />
+                        </Paper>
                       </Grid>
-                    </ProtectedRoute>
+                      <Grid item xs={12} sm={8} md={9}>
+                        <Paper elevation={0} sx={{ minHeight: 400, overflow: 'hidden' }}>
+                          <UserComments setContextText={handleSetContextText} />
+                        </Paper>
+                      </Grid>
+                    </Grid>
                   }
                 />
 
                 <Route
                   path="/users"
                   element={
-                    <ProtectedRoute user={user}>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={4} md={3}>
-                          <Paper elevation={0} sx={{ overflow: 'hidden', position: 'sticky', top: 80 }}>
-                            <UserList />
-                          </Paper>
-                        </Grid>
-                        <Grid item xs={12} sm={8} md={9}>
-                          <Paper elevation={0} sx={{ minHeight: 400, overflow: 'hidden' }}>
-                            <Box sx={{ padding: 3, textAlign: 'center', color: '#B0B0B0' }}>
-                              Select a user from the list to view their profile
-                            </Box>
-                          </Paper>
-                        </Grid>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={4} md={3}>
+                        <Paper elevation={0} sx={{ overflow: 'hidden', position: 'sticky', top: 80 }}>
+                          <UserList />
+                        </Paper>
                       </Grid>
-                    </ProtectedRoute>
+                      <Grid item xs={12} sm={8} md={9}>
+                        <Paper elevation={0} sx={{ minHeight: 400, overflow: 'hidden' }}>
+                          <Box sx={{ padding: 3, textAlign: 'center', color: '#B0B0B0' }}>
+                            Select a user from the list to view their profile
+                          </Box>
+                        </Paper>
+                      </Grid>
+                    </Grid>
                   }
                 />
 
-                {/* Redirects */}
+                {/* Default redirect - Vào thẳng /users thay vì login */}
                 <Route
                   path="/"
-                  element={user ? <Navigate to="/users" replace /> : <Navigate to="/login-register" replace />}
+                  element={<Navigate to="/users" replace />}
                 />
 
                 {/* Error Page for 404 */}

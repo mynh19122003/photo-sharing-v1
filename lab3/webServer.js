@@ -254,9 +254,9 @@ app.post('/user', async (req, res) => {
 // ============================================
 
 /**
- * GET /user/list
+ * GET /user/list - Cho phép guest xem danh sách user
  */
-app.get('/user/list', requireLogin, async (req, res) => {
+app.get('/user/list', async (req, res) => {
     try {
         const users = await User.find({}, '_id first_name last_name').lean();
         res.json(users);
@@ -266,9 +266,9 @@ app.get('/user/list', requireLogin, async (req, res) => {
 });
 
 /**
- * GET /user/:id
+ * GET /user/:id - Cho phép guest xem thông tin user
  */
-app.get('/user/:id', requireLogin, async (req, res) => {
+app.get('/user/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id, '_id first_name last_name location description occupation').lean();
         if (!user) {
@@ -281,9 +281,9 @@ app.get('/user/:id', requireLogin, async (req, res) => {
 });
 
 /**
- * GET /photosOfUser/:id
+ * GET /photosOfUser/:id - Cho phép guest xem photos
  */
-app.get('/photosOfUser/:id', requireLogin, async (req, res) => {
+app.get('/photosOfUser/:id', async (req, res) => {
     try {
         const userExists = await User.exists({ _id: req.params.id });
         if (!userExists) {
