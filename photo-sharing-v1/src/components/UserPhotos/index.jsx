@@ -196,6 +196,13 @@ function UserPhotos({ advancedFeatures, setContextText, user: currentUser }) {
       />
 
       <CardContent sx={{ padding: 2 }}>
+        {/* Description - Mô tả bài đăng */}
+        {photo.description && (
+          <Typography variant="body1" sx={{ color: '#E0E0E0', marginBottom: 2, fontWeight: 500 }}>
+            {photo.description}
+          </Typography>
+        )}
+
         {/* Date with Icon */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, marginBottom: 2 }}>
           <ScheduleIcon sx={{ fontSize: 18, color: '#808080' }} />

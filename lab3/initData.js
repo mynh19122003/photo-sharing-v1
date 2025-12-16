@@ -38,6 +38,7 @@ const commentSchema = new mongoose.Schema({
 const photoSchema = new mongoose.Schema({
     _id: String,
     file_name: { type: String, required: true },
+    description: { type: String, default: '' },  // Thêm description
     date_time: { type: Date, default: Date.now },
     user_id: { type: String, required: true },
     comments: [commentSchema],
@@ -138,12 +139,13 @@ const users = [
     },
 ];
 
-// Photos với Comments (giữ nguyên từ loadDatabase.js)
+// Photos với Comments và Description
 const photos = [
     {
         _id: "57231f1a30e4351f4e9f4bdd",
         date_time: new Date("2012-08-30 10:44:23"),
         file_name: "ouster.jpg",
+        description: "Spending a quiet afternoon with my books 📚",
         user_id: "57231f1a30e4351f4e9f4bdc",
         comments: [
             { _id: "57231f1a30e4351f4e9f4be9", date_time: new Date("2012-09-02 14:01:00"), comment: "Learning new programming languages is hard...", user_id: "57231f1a30e4351f4e9f4bdc" },
@@ -155,6 +157,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4bde",
         date_time: new Date("2009-09-13 20:00:00"),
         file_name: "malcolm2.jpg",
+        description: "Nature always finds a way...",
         user_id: "57231f1a30e4351f4e9f4bd7",
         comments: [
             { _id: "57231f1a30e4351f4e9f4bec", date_time: new Date("2009-09-14 18:07:00"), comment: "Life finds a way.", user_id: "57231f1a30e4351f4e9f4bd7" },
@@ -164,6 +167,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4bdf",
         date_time: new Date("2009-09-13 20:05:03"),
         file_name: "malcolm1.jpg",
+        description: "Just another day at the lab 🔬",
         user_id: "57231f1a30e4351f4e9f4bd7",
         comments: [],
     },
@@ -171,6 +175,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4be0",
         date_time: new Date("2013-11-18 18:02:00"),
         file_name: "ripley1.jpg",
+        description: "Ready for another mission! 🚀",
         user_id: "57231f1a30e4351f4e9f4bd8",
         comments: [],
     },
@@ -178,6 +183,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4be1",
         date_time: new Date("2013-09-20 17:30:00"),
         file_name: "ripley2.jpg",
+        description: "Back from a long journey in space",
         user_id: "57231f1a30e4351f4e9f4bd8",
         comments: [
             { _id: "57231f1a30e4351f4e9f4bed", date_time: new Date("2013-11-28 17:45:13"), comment: "Back from my trip. Did IQs just drop sharply while I was away?", user_id: "57231f1a30e4351f4e9f4bd8" },
@@ -187,6 +193,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4be2",
         date_time: new Date("2009-07-10 16:02:49"),
         file_name: "kenobi1.jpg",
+        description: "Beautiful sunset today ☀️",
         user_id: "57231f1a30e4351f4e9f4bda",
         comments: [],
     },
@@ -194,6 +201,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4be3",
         date_time: new Date("2010-03-18 23:48:00"),
         file_name: "kenobi2.jpg",
+        description: "Training session completed!",
         user_id: "57231f1a30e4351f4e9f4bda",
         comments: [
             { _id: "57231f1a30e4351f4e9f4bee", date_time: new Date("2013-11-02 14:07:00"), comment: "Hey Rey, great form!", user_id: "57231f1a30e4351f4e9f4bd8" },
@@ -204,6 +212,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4be4",
         date_time: new Date("2010-08-30 14:26:00"),
         file_name: "kenobi3.jpg",
+        description: "Made a new friend today! 🐾",
         user_id: "57231f1a30e4351f4e9f4bda",
         comments: [
             { _id: "57231f1a30e4351f4e9f4bf0", date_time: new Date("2010-09-06 13:59:33"), comment: "Made a new friend today!", user_id: "57231f1a30e4351f4e9f4bda" },
@@ -213,6 +222,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4be5",
         date_time: new Date("2013-12-03 09:02:00"),
         file_name: "took1.jpg",
+        description: "Adventures with my best friend! 🌄",
         user_id: "57231f1a30e4351f4e9f4bd9",
         comments: [
             { _id: "57231f1a30e4351f4e9f4bf4", date_time: new Date("2016-01-04 02:00:01"), comment: "Which one are you?", user_id: "57231f1a30e4351f4e9f4bdb" },
@@ -223,6 +233,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4be6",
         date_time: new Date("2013-12-03 09:03:00"),
         file_name: "took2.jpg",
+        description: "Second breakfast is the best breakfast! 🍳",
         user_id: "57231f1a30e4351f4e9f4bd9",
         comments: [
             { _id: "57231f1a30e4351f4e9f4bf2", date_time: new Date("2013-12-04 13:12:00"), comment: "What do you mean you haven't heard of second breakfast?", user_id: "57231f1a30e4351f4e9f4bd9" },
@@ -232,6 +243,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4be7",
         date_time: new Date("2013-09-04 09:16:32"),
         file_name: "ludgate1.jpg",
+        description: "Just being me... 🖤",
         user_id: "57231f1a30e4351f4e9f4bdb",
         comments: [
             { _id: "57231f1a30e4351f4e9f4bf3", date_time: new Date("2013-09-04 10:14:32"), comment: "Beautiful yet cold and aloof.", user_id: "57231f1a30e4351f4e9f4bdb" },
@@ -241,6 +253,7 @@ const photos = [
         _id: "57231f1a30e4351f4e9f4be8",
         date_time: new Date("2008-10-16 17:12:28"),
         file_name: "kenobi4.jpg",
+        description: "My trusty ride! 🏍️",
         user_id: "57231f1a30e4351f4e9f4bda",
         comments: [
             { _id: "57231f1a30e4351f4e9f4bf1", date_time: new Date("2008-10-16 18:04:55"), comment: "Wouldn't get anywhere without this beauty!", user_id: "57231f1a30e4351f4e9f4bda" },

@@ -103,6 +103,7 @@ const commentSchema = new mongoose.Schema({
 const photoSchema = new mongoose.Schema({
     _id: String,
     file_name: { type: String, required: true },
+    description: { type: String, default: '' },  // Thêm description cho ảnh
     date_time: { type: Date, default: Date.now },
     user_id: { type: String, required: true },
     comments: [commentSchema],
@@ -310,6 +311,7 @@ app.get('/photosOfUser/:id', async (req, res) => {
                     _id: photo._id,
                     user_id: photo.user_id,
                     file_name: photo.file_name,
+                    description: photo.description || '',  // Thêm description
                     date_time: photo.date_time,
                     comments: transformedComments,
                 };
@@ -323,9 +325,9 @@ app.get('/photosOfUser/:id', async (req, res) => {
 });
 
 /**
- * GET /users/stats
+ * GET /users/stats - Cho phép guest xem stats
  */
-app.get('/users/stats', requireLogin, async (req, res) => {
+app.get('/users/stats', async (req, res) => {
     try {
         const users = await User.find({}, '_id').lean();
         const allPhotos = await Photo.find({}).lean();

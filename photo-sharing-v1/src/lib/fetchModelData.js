@@ -15,10 +15,7 @@ function fetchModel(url) {
     })
       .then((response) => {
         if (!response.ok) {
-          if (response.status === 401) {
-            // Redirect to login if unauthorized
-            window.location.pathname = '/login-register';
-          }
+          // Không redirect nữa - để component tự xử lý lỗi
           reject(new Error(`HTTP error! Status: ${response.status}`));
           return;
         }
